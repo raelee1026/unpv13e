@@ -1,0 +1,14 @@
+
+[Thu Nov  7 15:49:35 2024] recvfrom 127.0.0.1, port 57826: 11 112550003 127.0.0.1
+New Req. Student ID = 112550003, TCP Serv addr = 127.0.0.1
+
+[Thu Nov  7 15:49:35 2024] recvfrom 127.0.0.1, port 57826: 13 112550003 9880
+Creating 7 connections...
+[Thu Nov  7 15:49:35 2024] sendto 127.0.0.1, port 57826: ok.
+
+[Thu Nov  7 16:30:38 2024] recvfrom 127.0.0.1, port 54437: 11 112550003 127.0.0.1
+New Req. Student ID = 112550003, TCP Serv addr = 127.0.0.1
+
+[Thu Nov  7 16:30:38 2024] recvfrom 127.0.0.1, port 54437: 13 112550003 9880
+Creating 8 connections...
+[Thu Nov  7 16:30:38 2024] sendto 127.0.0.1, port 54437: ok.
