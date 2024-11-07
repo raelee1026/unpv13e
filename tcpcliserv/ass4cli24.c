@@ -37,11 +37,19 @@ int main(int argc, char **argv){
     UDPservaddr.sin_port        = htons(SERV_PORT + 3);
     Inet_pton(AF_INET, argv[1], &UDPservaddr.sin_addr.s_addr);
     UDPsockfd = Socket(AF_INET, SOCK_DGRAM, 0);
-    
+
+    // 連接 UDP socket，確保 getsockname 可正確獲取 IP
     Connect(UDPsockfd, (SA *) &UDPservaddr, sizeof(UDPservaddr));
-    // send 11 + studentID + IP address to Teacher's UDP server
-    snprintf(sendline, sizeof(sendline), "11 112550003 %s", inet_ntoa(UDPservaddr.sin_addr));
-    // Sendto(UDPsockfd, sendline, strlen(sendline), 0, (SA *) &UDPservaddr, sizeof(UDPservaddr));
+
+    // 使用 getsockname 獲取綁定後的 UDP Client IP Address
+    struct sockaddr_in local_addr;
+    socklen_t len = sizeof(local_addr);
+    getsockname(UDPsockfd, (struct sockaddr *) &local_addr, &len);
+    char local_ip[INET_ADDRSTRLEN];
+    Inet_ntop(AF_INET, &local_addr.sin_addr, local_ip, sizeof(local_ip));
+
+    // send 11 + studentID + TCP Server IP address to Teacher's UDP server
+    snprintf(sendline, sizeof(sendline), "11 112550003 %s", local_ip);
     Send(UDPsockfd, sendline, strlen(sendline), 0);
     printf("Sent: %s\n", sendline);
 
@@ -56,6 +64,7 @@ int main(int argc, char **argv){
         Close(UDPsockfd);    // Close UDP socket  n >= 90
         exit(0);  
     }
+
     snprintf(sendline, sizeof(sendline), "13 112550003 %d", SERV_PORT + 3);
     // Sendto(UDPsockfd, sendline, strlen(sendline), 0, (SA *) &UDPservaddr, sizeof(UDPservaddr));
     Send(UDPsockfd, sendline, strlen(sendline), 0); 
